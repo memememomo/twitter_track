@@ -1,0 +1,33 @@
+% my $track = $_[0]->{handler}->args->[0];
+<html>
+<head>
+<title>Track word 「<%= $track %>」</title>
+<script type="text/javascript" src="static/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="static/jquery.ev.js"></script>
+<script type="text/javascript">
+jQuery( function ($) {
+   $.ev.loop('/' + '<%= $track %>' + '/poll/' +'?session=' + Math.random(), {
+      tweet : function(ev) {
+           if(! ev.tweet.user || ! ev.tweet.text) return;
+           $( "#tweets" ).prepend(
+               ev.tweet.user.screen_name + ": " +
+               ev.tweet.text + "<br>"
+           );
+      },
+      message : function(ev) {
+           $( "#tweets" ).prepend(
+               '<span style="color: #f00;">' + ev.text + "</span><br>"
+           );
+      }
+   });
+} );
+</script>
+</head>
+
+<body>
+
+<h1>Track word 「<%= $track %>」</h1>
+<div id="tweets"></div>
+
+</body>
+</html>
